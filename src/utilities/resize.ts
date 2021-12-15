@@ -23,7 +23,11 @@ const writeResizedImage = async (
   width: number,
   height: number
 ): Promise<void> => {
-  // TODO: implement writeResizedImage
+  if (!existsSync(`images/${imageName}`)) {
+    throw new Error("Error: Specified image not found in images/");
+  } else if (width <= 0 || height <= 0) {
+    throw new Error("Error: New dimensions can't be negative");
+  }
 };
 
 export default writeResizedImage;
