@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { existsSync } from "fs";
+import sharp from "sharp";
+import { join } from "path";
 
 export const validateResizeQueryParameters = (
   req: Request,
@@ -18,16 +20,29 @@ export const validateResizeQueryParameters = (
   }
 };
 
+export const resizedImagePath = (
+  imageFileName: string,
+  width: number,
+  height: number
+) => {
+  const imageName = imageFileName.split(".").slice(0, -1).join(".");
+  const imageExtension = imageFileName.split(".").slice(-1);
+  return join(
+    "thumbnails",
+    `${imageName}-${width}x${height}.${imageExtension}`
+  );
+};
+
 const writeResizedImage = async (
-  imageName: string,
+  imageFileName: string,
   width: number,
   height: number
 ): Promise<void> => {
-  if (!existsSync(`images/${imageName}`)) {
-    throw new Error("Error: Specified image not found in images/");
-  } else if (width <= 0 || height <= 0) {
-    throw new Error("Error: New dimensions can't be negative");
-  }
+  const imagePath = join("images", imageFileName);
+  const thumbnailPath = resizedImagePath(imageFileName, width, height);
+  await sharp(imagePath)
+    .resize({ width: width, height: height })
+    .toFile(thumbnailPath);
 };
 
 export default writeResizedImage;

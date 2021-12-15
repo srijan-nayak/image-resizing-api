@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { validateResizeQueryParameters } from "../../utilities/resize";
+import writeResizedImage, {
+  resizedImagePath,
+  validateResizeQueryParameters,
+} from "../../utilities/resize";
+import { realpathSync } from "fs";
 
 const routes = Router();
 
@@ -8,7 +12,21 @@ routes.get("/", (req, res) => {
 });
 
 routes.get("/resize", validateResizeQueryParameters, async (req, res) => {
-  res.send("Resized image");
+  const { image, width, height } = req.query;
+  await writeResizedImage(
+    image as string,
+    Number.parseInt(width as string),
+    Number.parseInt(height as string)
+  );
+  res.sendFile(
+    realpathSync(
+      resizedImagePath(
+        image as string,
+        Number.parseInt(width as string),
+        Number.parseInt(height as string)
+      )
+    )
+  );
 });
 
 export default routes;
