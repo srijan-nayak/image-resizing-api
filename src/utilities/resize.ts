@@ -7,7 +7,7 @@ export const validateResizeQueryParameters = (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): void => {
   const { image, width, height } = req.query;
   if (image === undefined || width === undefined || height === undefined) {
     res.status(404).send("Error: Missing required query parameters");
@@ -24,7 +24,7 @@ export const checkCachedResizedImages = (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): void => {
   const { image, width, height } = req.query;
   const thumbnailPath = resizedImagePath(
     image as string,
@@ -42,7 +42,7 @@ export const resizedImagePath = (
   imageFileName: string,
   width: number,
   height: number
-) => {
+): string => {
   const imageName = imageFileName.split(".").slice(0, -1).join(".");
   const imageExtension = imageFileName.split(".").slice(-1);
   return join(
