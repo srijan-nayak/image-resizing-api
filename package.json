@@ -9,7 +9,7 @@
     "build": "tsc -p tsconfig.build.json",
     "dev-build": "tsc",
     "lint": "eslint src",
-    "format": "prettier -w src/**/*.ts"
+    "format": "prettier -w src"
   },
   "keywords": [],
   "author": "",
