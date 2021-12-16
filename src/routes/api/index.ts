@@ -17,21 +17,11 @@ routes.get(
   validateResizeQueryParameters,
   checkCachedResizedImages,
   async (req, res) => {
-    const { image, width, height } = req.query;
-    await writeResizedImage(
-      image as string,
-      Number.parseInt(width as string),
-      Number.parseInt(height as string)
-    );
-    res.sendFile(
-      realpathSync(
-        resizedImagePath(
-          image as string,
-          Number.parseInt(width as string),
-          Number.parseInt(height as string)
-        )
-      )
-    );
+    const imageFileName = req.query.image as string;
+    const width = Number.parseInt(req.query.width as string);
+    const height = Number.parseInt(req.query.height as string);
+    await writeResizedImage(imageFileName, width, height);
+    res.sendFile(realpathSync(resizedImagePath(imageFileName, width, height)));
   }
 );
 
