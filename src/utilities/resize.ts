@@ -3,6 +3,18 @@ import { existsSync, realpathSync } from "fs";
 import sharp from "sharp";
 import { join } from "path";
 
+/**
+ * Express middleware to check if
+ * - all required query parameters were provided
+ * - an image with the image name provided exists in the images directory
+ * - new width and height for resizing are greater than 0
+ * Sends an appropriate error message if above conditions are not met, else
+ * proceeds to the next middleware.
+ *
+ * @param req Express request object
+ * @param res Express response object
+ * @param next next function for proceeding to the succeeding middleware
+ */
 export const validateResizeQueryParameters = (
   req: Request,
   res: Response,
@@ -20,6 +32,14 @@ export const validateResizeQueryParameters = (
   }
 };
 
+/**
+ * Express middleware to check if a resized image exists in the thumbnails
+ * directory that can satisfy the current request.
+ *
+ * @param req Express request object
+ * @param res Express response object
+ * @param next next function for proceeding to the succeeding middleware
+ */
 export const checkCachedResizedImages = (
   req: Request,
   res: Response,
@@ -38,6 +58,19 @@ export const checkCachedResizedImages = (
   }
 };
 
+/**
+ * Computes the path name for the resized image. The file name in the path
+ * includes the resizing dimensions.
+ *
+ * ## Example
+ * `resizedImagePath("image.jpg", 400, 200) => "thumbnails/image-400x200.jpg"`
+ *
+ * @param imageFileName name of the image file with extension
+ * @param width resizing width
+ * @param height resizing height
+ *
+ * @returns computed thumbnail path
+ */
 export const resizedImagePath = (
   imageFileName: string,
   width: number,
@@ -51,6 +84,15 @@ export const resizedImagePath = (
   );
 };
 
+/**
+ * Resizes and writes the image with filename `imageFileName` in the images
+ * directory to the thumbnails directory with dimensions included in the
+ * filename.
+ *
+ * @param imageFileName name of the image file with extension
+ * @param width resizing width
+ * @param height resizing height
+ */
 const writeResizedImage = async (
   imageFileName: string,
   width: number,
