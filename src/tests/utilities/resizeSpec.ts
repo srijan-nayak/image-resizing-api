@@ -1,8 +1,16 @@
-import { writeResizedImage } from "../../utilities/resize";
+import { resizedImagePath, writeResizedImage } from "../../utilities/resize";
 
 import { existsSync } from "fs";
 import { mkdir, rename, rm } from "fs/promises";
 import { join } from "path";
+
+describe("resizedImagePath", () => {
+  it("should compute thumbnail path with dimensions", () => {
+    expect(resizedImagePath("tower.jpg", 533, 800)).toBe(
+      "thumbnails/tower-533x800.jpg"
+    );
+  });
+});
 
 describe("writeResizeImage", async () => {
   const THUMBNAILS_TEST_DIR = "thumbnails";
