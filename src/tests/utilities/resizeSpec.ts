@@ -1,4 +1,4 @@
-import writeResizedImage from "../../utilities/resize";
+import { writeResizedImage } from "../../utilities/resize";
 
 import { existsSync } from "fs";
 import { mkdir, rename, rm } from "fs/promises";

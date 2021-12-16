@@ -1,8 +1,9 @@
 import { Router } from "express";
-import writeResizedImage, {
+import {
   checkCachedResizedImages,
   resizedImagePath,
   validateResizeQueryParameters,
+  writeResizedImage,
 } from "../../utilities/resize";
 import { realpathSync } from "fs";
 

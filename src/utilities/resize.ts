@@ -93,7 +93,7 @@ export const resizedImagePath = (
  * @param width resizing width
  * @param height resizing height
  */
-const writeResizedImage = async (
+export const writeResizedImage = async (
   imageFileName: string,
   width: number,
   height: number
@@ -104,5 +104,3 @@ const writeResizedImage = async (
     .resize({ width: width, height: height })
     .toFile(thumbnailPath);
 };
-
-export default writeResizedImage;
