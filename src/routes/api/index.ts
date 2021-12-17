@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import {
   checkCachedResizedImages,
   resizedImagePath,
@@ -9,7 +9,7 @@ import { realpathSync } from "fs";
 
 const routes = Router();
 
-routes.get("/", (req, res) => {
+routes.get("/", (req: Request, res: Response): void => {
   res.send("At API root endpoint");
 });
 
@@ -17,7 +17,7 @@ routes.get(
   "/resize",
   validateResizeQueryParameters,
   checkCachedResizedImages,
-  async (req, res) => {
+  async (req: Request, res: Response): Promise<void> => {
     const imageFileName = req.query.image as string;
     const width = Number.parseInt(req.query.width as string);
     const height = Number.parseInt(req.query.height as string);

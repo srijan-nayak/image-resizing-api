@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import routes from "./routes/api";
 import { existsSync, mkdirSync } from "fs";
 
@@ -13,13 +13,13 @@ if (!existsSync("thumbnails")) {
   mkdirSync("thumbnails");
 }
 
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response): void => {
   res.send("At root endpoint");
 });
 
 app.use("/api", routes);
 
-app.listen(PORT, () => {
+app.listen(PORT, (): void => {
   console.log(`Server listening on http://localhost:${PORT}`);
 });
 
