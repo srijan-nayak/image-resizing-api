@@ -38,12 +38,11 @@ describe("GET /api/resize?image=twig.jpg&width=600&height=400", (): void => {
     expect(response.statusCode).toBe(200);
   });
 
-  it("should return an resized image", async (): Promise<void> => {
+  it("should return an image", async (): Promise<void> => {
     const response = await request.get(
       "/api/resize?image=twig.jpg&width=600&height=400"
     );
     const contentType = response.headers["content-type"];
-    // check if the response body is generic binary data like an image
     expect(contentType).toMatch(/image\/*/);
   });
 
